@@ -1,0 +1,17 @@
+{
+  "name": "perceptronjs",
+  "version": "0.0.1",
+  "description": "Simple perceptron js",
+  "author": "LordKarsbein",
+  "scripts": {
+    "build": "babel src -d lib"
+  },
+  "dependencies": {
+    "chart.js": "^2.5.0",
+    "mathjs": "^3.10.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-preset-env": "^1.2.2"
+  }
+}
