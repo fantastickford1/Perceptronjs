@@ -61,7 +61,7 @@ export class Perceptron {
       this.count++;
       this.err_total = Math.sqrt(this.err_total);
       if (this.DEB)
-        console.log(`iteracion: ${this.count} , error -> ${this.err_total} , W -> ${this.W}`);
+        console.log(`iteracion: ${this.count} , error -> ${this.err_total} , W -> ${this.W} \n`);
     }
     return this.W;
   }
