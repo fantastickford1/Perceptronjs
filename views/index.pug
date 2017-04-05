@@ -1,0 +1,30 @@
+doctype
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title Generador
+    head
+    style.
+      @import url('https://fonts.googleapis.com/css?family=Space+Mono');
+
+      #text p{
+        margin: 0px !important;
+        font-size: 15px;
+        font-family: 'Space Mono', monospace;
+      }
+
+  body
+    - var data = ['A' , 'B' , 'C' , 'D' , 'E' , 'F' , 'G' , 'H' , 'I' , 'J' , 'K' , 'L' , 'M' , 'N' , 'O' , 'P' , 'Q' , 'R' , 'S' , 'T' , 'U' , 'V' , 'W' , 'X' , 'Y' , 'Z'];
+    - var min = ['a','b','c','d', 'e' , 'f' , 'g' , 'h' , 'i', 'j' , 'k' , 'l' , 'm' , 'n' , 'o' , 'p' , 'q' , 'r' , 's' , 't' , 'u' , 'v' , 'w' , 'x' , 'y' , 'z' ];
+    - var num = [ '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ];
+    #text
+      each val in min
+        canvas(id=val, class='mycanvas' width='10' height='10')
+      each val in num
+        canvas(id=val, class='mycanvas' width='10' height='10')
+
+    button(type="button")#write Write in Canvas
+    button(type="button")#get Get Datasets
+    button(type="button")#saveDataSets Save Datasets
+    button(type="button")#save Save Images
+    script( src='../dist/main.js' )
