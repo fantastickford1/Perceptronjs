@@ -23,8 +23,8 @@ html(lang='en')
       each val in num
         canvas(id=val, class='mycanvas' width='10' height='10')
 
-    button(type="button")#write Write in Canvas
-    button(type="button")#get Get Datasets
-    button(type="button")#saveDataSets Save Datasets
-    button(type="button")#save Save Images
+    button(type="button")#write Write in canvas
+    button(type="button")#data Get datasets
+    button(type="button")#save Save data
+    a(download="info.txt",id="downloadlink",style="display: none") Download
     script( src='../dist/main.js' )

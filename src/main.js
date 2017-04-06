@@ -3,11 +3,26 @@ import {DatasetGenerator} from './DatasetGenerator';
 let datagen = new DatasetGenerator();
 
 let writeButton = document.getElementById('write');
-let doDataSets = document.getElementById('get');
-let saveImg = document.getElementById('save');
-let saveJSON = document.getElementById('saveDataSets');
+let getData = document.getElementById('data');
+let saveDAta = document.getElementById('save');
 
-writeButton.addEventListener("click",() => datagen.writeCanvas('Kinnari'));
-doDataSets.addEventListener("click", () => datagen.getDatasets());
-saveImg.addEventListener("click", () => datagen.saveImg());
-saveJSON.addEventListener("click", () => datagen.saveJSON());
+var index = 0;
+let fonts = ['Bitstream Charter','Century Schoolbook L','FreeMono','FreeSans','FreeSerif','Garuda','Kinnari','Laksaman','Liberation','Loma','NanumGothic','Nimbus Mono L','Nimbus Sans L','Norasi','Padauk','Purisa','Sawasdee','STIX'];
+let data = [];
+
+writeButton.addEventListener("click",() => {
+  if (index < fonts.length){
+    console.log(fonts[index]);
+    datagen.writeCanvas(fonts[index]);
+  }
+});
+
+getData.addEventListener('click', () =>{
+  data.push(datagen.getDatasets());
+});
+
+saveDAta.addEventListener('click', () =>{
+  datagen.saveJSON(data);
+  datagen.erraseCanvas();
+  index++;
+});

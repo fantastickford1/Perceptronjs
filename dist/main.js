@@ -101,6 +101,7 @@ var DatasetGenerator = exports.DatasetGenerator = function () {
     this.canvasSet = [];
     this.dataSets = {};
     this.allData = [];
+    this.textFile = null;
   }
 
   _createClass(DatasetGenerator, [{
@@ -109,10 +110,20 @@ var DatasetGenerator = exports.DatasetGenerator = function () {
       this.canvasSet = [].slice.call(document.getElementsByClassName('mycanvas'));
     }
   }, {
+    key: 'erraseCanvas',
+    value: function erraseCanvas() {
+      this.canvasSet.forEach(function (canvas) {
+        var ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+    }
+  }, {
     key: 'writeCanvas',
     value: function writeCanvas(font) {
+      console.log(font);
       this.getCanvasArray();
       this.canvasSet.forEach(function (canvas, index) {
+        console.log('Dibujando');
         var ctx = canvas.getContext("2d");
         ctx.font = font;
         var data = canvas.id;
@@ -127,27 +138,48 @@ var DatasetGenerator = exports.DatasetGenerator = function () {
     value: function getDatasets() {
       var _this = this;
 
-      this.getCanvasArray();
       this.canvasSet.forEach(function (canvas) {
         _domToImage2.default.toPixelData(canvas).then(function (pixel) {
+          console.log('Se obtendra data');
           var character = canvas.id;
           var bytes = [];
           for (var y = 0; y < canvas.scrollHeight; ++y) {
+            console.log('Obteniendo data');
             for (var x = 0; x < canvas.scrollWidth; ++x) {
               var pixelAtXYOffset = 4 * y * canvas.scrollHeight + 4 * x;
               var pixelAtXY = pixel.slice(pixelAtXYOffset, pixelAtXYOffset + 4);
               bytes.push(_this.filtro(pixelAtXY));
             }
           }
-          _this.allData.push({ character: bytes });
+          console.log('se obtuvo el data');
+          _this.allData.push({ character: character, bytes: bytes });
+          //then Final
         });
+        //end forEach
       });
+      console.log('before the return');
+      return this.allData;
     }
   }, {
     key: 'saveJSON',
-    value: function saveJSON() {
-      var jsonString = JSON.stringify(this.allData);
-      console.log(jsonString);
+    value: function saveJSON(data) {
+      var jsonString = JSON.stringify(data);
+      console.log('save funtion');
+      console.log(data);
+      var link = document.getElementById('downloadlink');
+      link.href = this.makeTextFile(jsonString);
+      link.style.display = 'block';
+    }
+  }, {
+    key: 'makeTextFile',
+    value: function makeTextFile(text) {
+      var data = new Blob([text], { type: 'text/plain' });
+
+      if (this.textFile !== null) window.URL.revokeObjectURL(this.textFile);
+
+      this.textFile = window.URL.createObjectURL(data);
+
+      return this.textFile;
     }
   }, {
     key: 'filtro',
@@ -157,7 +189,6 @@ var DatasetGenerator = exports.DatasetGenerator = function () {
   }, {
     key: 'saveImg',
     value: function saveImg() {
-      this.getCanvasArray();
       this.canvasSet.forEach(function (canvas) {
         (0, _canvasToImage2.default)(canvas.id, {
           name: 'myJPG' + canvas.id,
@@ -183,21 +214,28 @@ var _DatasetGenerator = __webpack_require__(0);
 var datagen = new _DatasetGenerator.DatasetGenerator();
 
 var writeButton = document.getElementById('write');
-var doDataSets = document.getElementById('get');
-var saveImg = document.getElementById('save');
-var saveJSON = document.getElementById('saveDataSets');
+var getData = document.getElementById('data');
+var saveDAta = document.getElementById('save');
+
+var index = 0;
+var fonts = ['Bitstream Charter', 'Century Schoolbook L', 'FreeMono', 'FreeSans', 'FreeSerif', 'Garuda', 'Kinnari', 'Laksaman', 'Liberation', 'Loma', 'NanumGothic', 'Nimbus Mono L', 'Nimbus Sans L', 'Norasi', 'Padauk', 'Purisa', 'Sawasdee', 'STIX'];
+var data = [];
 
 writeButton.addEventListener("click", function () {
-  return datagen.writeCanvas('Kinnari');
+  if (index < fonts.length) {
+    console.log(fonts[index]);
+    datagen.writeCanvas(fonts[index]);
+  }
 });
-doDataSets.addEventListener("click", function () {
-  return datagen.getDatasets();
+
+getData.addEventListener('click', function () {
+  data.push(datagen.getDatasets());
 });
-saveImg.addEventListener("click", function () {
-  return datagen.saveImg();
-});
-saveJSON.addEventListener("click", function () {
-  return datagen.saveJSON();
+
+saveDAta.addEventListener('click', function () {
+  datagen.saveJSON(data);
+  datagen.erraseCanvas();
+  index++;
 });
 
 /***/ }),
