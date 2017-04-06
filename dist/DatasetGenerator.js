@@ -858,7 +858,7 @@ var DatasetGenerator = exports.DatasetGenerator = function () {
       this.canvasSet.forEach(function (canvas, index) {
         console.log('Dibujando');
         var ctx = canvas.getContext("2d");
-        ctx.font = font;
+        ctx.font = '10px ' + font;
         var data = canvas.id;
         ctx.fillStyle = 'rgb(255, 255, 255)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -871,6 +871,7 @@ var DatasetGenerator = exports.DatasetGenerator = function () {
     value: function getDatasets() {
       var _this = this;
 
+      this.allData = [];
       this.canvasSet.forEach(function (canvas) {
         _domToImage2.default.toPixelData(canvas).then(function (pixel) {
           console.log('Se obtendra data');

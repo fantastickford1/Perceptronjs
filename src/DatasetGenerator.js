@@ -29,7 +29,7 @@ export class DatasetGenerator {
     this.canvasSet.forEach( (canvas , index) => {
       console.log('Dibujando');
       var ctx = canvas.getContext("2d");
-      ctx.font = font;
+      ctx.font = `10px ${font}`;
       var data = canvas.id;
       ctx.fillStyle='rgb(255, 255, 255)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -39,6 +39,7 @@ export class DatasetGenerator {
   }
 
   getDatasets(){
+    this.allData = [];
     this.canvasSet.forEach( (canvas) =>{
       domtoimage.toPixelData(canvas)
         .then( ( pixel ) =>{
